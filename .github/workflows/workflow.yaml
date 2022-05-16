@@ -1,0 +1,41 @@
+on: [push]
+
+name: R-CMD
+
+jobs:
+  R-CMD:
+    if: (github.actor == 'kbturgut090')
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} 
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { os: windows-latest }
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: r-lib/actions/setup-r@master
+
+      - uses: r-lib/actions/setup-pandoc@master
+      
+
+      - name: Install dependencies
+        run: |
+          Rscript -e "install.packages(c('telegram.bot','readxl','gridExtra', 'tidyverse', 'grid', 'lubridate'))"
+
+      - name: Create and populate .Renviron file and Run
+        run: |
+          echo BOT_ID="$BOT_ID" >> ~/.Renviron
+          echo GIT_ID="$GIT_ID" >> ~/.Renviron
+          Rscript rscript.R
+          Rscript another_rscript.R
+        shell: bash
+        env:
+          BOT_ID: ${{ secrets.BOT_ID}}
+        
+
+          
