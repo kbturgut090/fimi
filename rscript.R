@@ -8,7 +8,8 @@ library(grid)
 
 df = readxl::read_excel('last_down.xlsx') %>% 
   select(ATM_ID,Address,everything()) %>% 
-  select(ATM_ID,Address,Device,Elapsed_time)
+  select(ATM_ID,Address,Device,Elapsed_time) %>% 
+  filter(Elapsed_time>=15)
 
 
 #print(Sys.getenv('BOT_ID'))
