@@ -60,7 +60,11 @@ for (j in 1:length(unique_chats)) {
   reg_name = paste(letters[1:5],collapse = '')
   print(cur_zone)
   if(nrow(df_)>0){
-    png(paste(reg_name,'.png',sep = ''), height = 30*nrow(df_), width = 200*ncol(df_))
+    if(nrow(df_)<=3) {
+      png(paste(reg_name,'.png',sep = ''), height = 100*nrow(df_), width = 200*ncol(df_))
+    } else {
+      png(paste(reg_name,'.png',sep = ''), height = 30*nrow(df_), width = 200*ncol(df_))
+    }
     
     myTable <- tableGrob(df_, rows = NULL)
     
