@@ -52,12 +52,15 @@ qruplar = readxl::read_excel('chat_id.xlsx')
 
 unique_chats = unique(qruplar$Responsible_ID)
 
+options(scipen = 9999)
+
 for (j in 1:length(unique_chats)) {
   df_ = semi_join(df,qruplar %>% filter(Responsible_ID==unique_chats[j])) 
   cur_zone = as.numeric(unique_chats[j])
+  reg_name = paste(letters[1:5],collapse = '')
   print(cur_zone)
   if(nrow(df_)>0){
-    png(paste(cur_zone,'.png',sep = ''), height = 30*nrow(df_), width = 200*ncol(df_))
+    png(paste(reg_name,'.png',sep = ''), height = 30*nrow(df_), width = 200*ncol(df_))
     
     myTable <- tableGrob(df_, rows = NULL)
     
@@ -68,7 +71,7 @@ for (j in 1:length(unique_chats)) {
     
     # Send photo
     bot$sendPhoto(cur_zone,
-                  photo = paste(cur_zone,'.png',sep = '')
+                  photo = paste(reg_name,'.png',sep = '')
     )
     print(j)
   }
