@@ -55,6 +55,7 @@ unique_chats = unique(qruplar$Responsible_ID)
 for (j in 1:length(unique_chats)) {
   df_ = semi_join(df,qruplar %>% filter(Responsible_ID==unique_chats[j])) 
   cur_zone = as.numeric(unique_chats[j])
+  print(cur_zone)
   if(nrow(df_)>0){
     png(paste(cur_zone,'.png',sep = ''), height = 30*nrow(df_), width = 200*ncol(df_))
     
