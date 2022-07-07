@@ -48,7 +48,7 @@ for ( i in 1:nrow(zones)) {
   
 }
 
-qruplar = readxl::read_excel('\\\\filesrv02\\Terminal_shebekesinin_idare_edilmesi_shobesi\\texniki_id\\chat_id.xlsx')
+qruplar = readxl::read_excel('chat_id.xlsx')
 
 unique_chats = unique(qruplar$Responsible_ID)
 
