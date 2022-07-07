@@ -48,6 +48,32 @@ for ( i in 1:nrow(zones)) {
   
 }
 
+qruplar = readxl::read_excel('\\\\filesrv02\\Terminal_shebekesinin_idare_edilmesi_shobesi\\texniki_id\\chat_id.xlsx')
+
+unique_chats = unique(qruplar$Responsible_ID)
+
+for (j in 1:length(unique_chats)) {
+  df_ = semi_join(df,qruplar %>% filter(Responsible_ID==unique_chats[j]))
+  cur_zone = unique_chats[j]
+  if(nrow(df_)>0){
+    png(paste(cur_zone,'.png',sep = ''), height = 30*nrow(df_), width = 200*ncol(df_))
+    
+    myTable <- tableGrob(df_, rows = NULL)
+    
+    
+    
+    grid.draw(myTable)
+    dev.off()
+    
+    # Send photo
+    bot$sendPhoto(cur_zone,
+                  photo = paste(cur_zone,'.png',sep = '')
+    )
+    print(j)
+  }
+}
+
+
 
 
 
