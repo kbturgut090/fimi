@@ -82,9 +82,37 @@ for (j in 1:length(unique_chats)) {
 }
 
 
-terminal_ = readxl::read_excel('last_problem.xlsx')
+df = readxl::read_excel('last_problem.xlsx')
 
 
+options(scipen = 9999)
+
+for (j in 1:length(unique_chats)) {
+  df_ = semi_join(df,qruplar %>% filter(Responsible_ID==unique_chats[j])) 
+  cur_zone = as.numeric(unique_chats[j])
+  reg_name = paste(letters[1:5],collapse = '')
+  print(cur_zone)
+  if(nrow(df_)>0){
+    if(nrow(df_)<=3) {
+      png(paste(reg_name,'.png',sep = ''), height = 100*nrow(df_), width = 200*ncol(df_))
+    } else {
+      png(paste(reg_name,'.png',sep = ''), height = 30*nrow(df_), width = 200*ncol(df_))
+    }
+    
+    myTable <- tableGrob(df_, rows = NULL)
+    
+    
+    
+    grid.draw(myTable)
+    dev.off()
+    
+    # Send photo
+    bot$sendPhoto(cur_zone,
+                  photo = paste(reg_name,'.png',sep = '')
+    )
+    print(j)
+  }
+}
 
 
 
