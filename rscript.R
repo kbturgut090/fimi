@@ -82,7 +82,20 @@ for (j in 1:length(unique_chats)) {
 }
 
 
+terminal_ = readxl::read_excel('\\\\10.0.6.184\\nt\\Daily_FIMI\\terminal\\last_problem.xlsx')
 
+terminal_ %>% transmute(ATM_ID = stringr::str_extract(Point,'\\(.*\\)') %>% 
+                          gsub('\\(|\\)','',.),
+                        Address = trimws(gsub('\\(.*\\)','',Point)),
+                        Bill_acceptor_status,
+                        Printer_status,
+                        Card_module,
+                        color,
+                        status,
+                        
+                        Elapsed_time = Elapsed_time) %>% 
+  tidyr::gather(-ATM_ID,-Address, -Elapsed_time,key=Device,value=value) %>% 
+  filter(!value %in% c('OK','Works'), !is.na(value)) %>% arrange(ATM_ID) #-> terminal_
 
 
 
